@@ -5,12 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Signify – Word Stages</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -278,7 +280,6 @@
             margin-bottom: 8px;
         }
 
-        /* Coming soon tag */
         .soon-tag {
             display: inline-block;
             background: #fef3c7;
@@ -325,14 +326,12 @@
 
     <div class="stages-path">
 
-        <!-- Stage 1 — Everyday Words (UNLOCKED) -->
         <div class="stage-row">
             <div class="stage-node unlocked">👋</div>
             <a href="learn-word-greetings.html" class="stage-card unlocked">
                 <div class="stage-num">Stage 1</div>
                 <div class="stage-title">Everyday Words</div>
-                <div class="stage-desc">The most common signs you'll use every day — greetings, emotions, and
-                    essentials.</div>
+                <div class="stage-desc">The most common signs you'll use every day — greetings, emotions, and essentials.</div>
                 <div class="word-pills">
                     <span class="word-pill pill-green">Hello</span>
                     <span class="word-pill pill-green">Thank You</span>
@@ -347,16 +346,13 @@
             </a>
         </div>
 
-        <!-- Stage 2 — Eating & Ordering (LOCKED until stage1_complete) -->
         <div class="stage-row">
             <div class="stage-node locked" id="stage2-node">🍽️</div>
             <div class="stage-card locked" id="stage2-card">
-                <div class="locked-badge" id="stage2-badge"><i class="bi bi-lock-fill"></i> Complete Stage 1 to unlock
-                </div>
+                <div class="locked-badge" id="stage2-badge"><i class="bi bi-lock-fill"></i> Complete Stage 1 to unlock </div>
                 <div class="stage-num">Stage 2 <span class="soon-tag" id="stage2-soon">Coming Soon</span></div>
                 <div class="stage-title">Eating & Ordering</div>
-                <div class="stage-desc">Order food, ask for help, and navigate everyday situations with confidence.
-                </div>
+                <div class="stage-desc">Order food, ask for help, and navigate everyday situations with confidence.</div>
                 <div class="word-pills">
                     <span class="word-pill pill-locked">Eat</span>
                     <span class="word-pill pill-locked">Drink</span>
@@ -371,7 +367,6 @@
             </div>
         </div>
 
-        <!-- Stage 3 — Feelings (LOCKED) -->
         <div class="stage-row">
             <div class="stage-node locked">❤️</div>
             <div class="stage-card locked">
@@ -393,15 +388,13 @@
             </div>
         </div>
 
-        <!-- Grammar Unlock — locked until all stages complete -->
         <div class="stage-row">
             <div class="stage-node locked">💬</div>
             <div class="stage-card locked" style="border-style: dashed;">
                 <div class="locked-badge"><i class="bi bi-lock-fill"></i> Complete all stages to unlock</div>
                 <div class="stage-num">Next Up</div>
                 <div class="stage-title">Putting It All Together</div>
-                <div class="stage-desc">You've already got the words — now let's start combining them into real thoughts
-                    you can sign with confidence. Simple, step-by-step, no grammar textbooks required.</div>
+                <div class="stage-desc">You've already got the words — now let's start combining them into real thoughts you can sign with confidence. Simple, step-by-step, no grammar textbooks required.</div>
                 <div class="word-pills">
                     <span class="word-pill pill-locked">Simple phrases</span>
                     <span class="word-pill pill-locked">Asking questions</span>
@@ -420,21 +413,21 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
-    <!-- Firebase: unlock Stage 2 if stage1_complete -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-    apiKey: "AIzaSyAtvEg9LMPYz_ksNsPkWXjSof85XD0BhWc",
-    authDomain: "signify-0326.firebaseapp.com",
-    projectId: "signify-0326",
-    storageBucket: "signify-0326.firebasestorage.app",
-    messagingSenderId: "277885993716",
-    appId: "1:277885993716:web:8aa7aef7777f14417e14a1",
-    databaseURL: "https://signify-0326-default-rtdb.asia-southeast1.firebasedatabase.app/"
-   };
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtvEg9LMPYz_ksNsPkWXjSof85XD0BhWc",
+            authDomain: "signify-0326.firebaseapp.com",
+            projectId: "signify-0326",
+            storageBucket: "signify-0326.firebasestorage.app",
+            messagingSenderId: "277885993716",
+            appId: "1:277885993716:web:8aa7aef7777f14417e14a1",
+            databaseURL: "https://signify-0326-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        };
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -449,10 +442,7 @@
         function unlockStage2() {
             const card = document.getElementById('stage2-card');
             const node = document.getElementById('stage2-node');
-            const badge = document.getElementById('stage2-badge');
-            const cta = document.getElementById('stage2-cta');
-            const soon = document.getElementById('stage2-soon');
-
+            
             // Swap div → a so it's clickable
             const a = document.createElement('a');
             a.href = 'learn-word-eating.html';
@@ -461,7 +451,7 @@
             a.innerHTML = card.innerHTML;
             card.replaceWith(a);
 
-            // Hide locked badge + soon tag
+            // Hide locked badge + soon tag using the new IDs from the replaced innerHTML
             document.getElementById('stage2-badge').style.display = 'none';
             document.getElementById('stage2-soon').style.display = 'none';
 
