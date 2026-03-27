@@ -26,27 +26,71 @@ const db = getFirestore(app);
 
 onAuthStateChanged(auth, async (user) => {
   const returningUserView = document.getElementById('returningUserView');
-  const newUserView       = document.getElementById('newUserView');
-  const loadingView       = document.getElementById('loadingView');
+  const newUserView = document.getElementById('newUserView');
+  const loadingView = document.getElementById('loadingView');
+  const gameSection = document.getElementById("gamePromoSection");
+
+  onAuthStateChanged(auth, (user) => {
+    if (gameSection) {
+      gameSection.style.display = user ? "none" : "block";
+    }
+  });
 
   if (!returningUserView || !newUserView || !loadingView) return;
 
   if (user) {
-    newUserView.style.display  = 'none';
-    loadingView.style.display  = 'block';
+    newUserView.style.display = 'none';
+    loadingView.style.display = 'block';
 
     await loadUserData(user);
     await loadMiniLeaderboard(user.uid);
 
     // Show dashboard FIRST, then rank is visible in the DOM
-    loadingView.style.display       = 'none';
+    loadingView.style.display = 'none';
     returningUserView.style.display = 'block';
 
   } else {
     returningUserView.style.display = 'none';
-    loadingView.style.display       = 'none';
-    newUserView.style.display       = 'block';
+    loadingView.style.display = 'none';
+    newUserView.style.display = 'block';
   }
+});
+
+function requireAuth(action) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      action(); // user is logged in → proceed
+    } else {
+      // show your login modal
+      document.querySelector(".profile-icon-btn").click();
+    }
+  });
+}
+
+document.getElementById("tryNowBtn").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  requireAuth(() => {
+    window.location.href = "./Sign-AI/index.html";
+  });
+});
+
+const playBtn = document.getElementById("playBtn");
+
+playBtn.addEventListener("click", () => {
+  requireAuth(() => {
+    window.location.href = "https://practicegame-signify.netlify.app/";
+  });
+});
+
+// 🔥 hover ON
+playBtn.addEventListener("mouseenter", () => {
+  playBtn.src = "images/playhover.png";
+});
+
+// 🔥 hover OFF
+playBtn.addEventListener("mouseleave", () => {
+  playBtn.src = "images/play.png";
 });
 
 async function loadUserData(user) {
@@ -63,13 +107,13 @@ async function loadUserData(user) {
   // Alphabet progress from subcollection
   // const alphaSnap = await getDocs(collection(db, "users", user.uid, "alphabet")); not neccessary since it is not being used anymore in this way
   const alphaMap = data.alphabet || {};
-  const learned  = Object.values(alphaMap).filter(v => v === true).length;
-  const pct      = Math.round((learned / 26) * 100);
+  const learned = Object.values(alphaMap).filter(v => v === true).length;
+  const pct = Math.round((learned / 26) * 100);
 
   const pAtoZText = document.getElementById('progress-AtoZ-text');
-  const pAtoZBar  = document.getElementById('progress-AtoZ-bar');
-  if (pAtoZText) pAtoZText.innerText  = `${pct}%`;
-  if (pAtoZBar)  pAtoZBar.style.width = `${pct}%`;
+  const pAtoZBar = document.getElementById('progress-AtoZ-bar');
+  if (pAtoZText) pAtoZText.innerText = `${pct}%`;
+  if (pAtoZBar) pAtoZBar.style.width = `${pct}%`;
 
   const nextBtn = document.getElementById('next-lesson-btn');
   if (nextBtn) nextBtn.innerText = `Jump to Letter "${data.nextLetter || 'A'}"`;
@@ -96,17 +140,16 @@ async function loadMiniLeaderboard(currentUid) {
     const isMe = docSnap.id === currentUid;
 
     let iconHtml = `<span class="me-2 text-muted fw-bold">${rank}.</span>`;
-  if (rank === 1) iconHtml = `<span class="rank-1" style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:18px;">emoji_events</span>1</span>`;
-  else if (rank === 2) iconHtml = `<span class="rank-2" style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:18px;">emoji_events</span>2</span>`;
-  else if (rank === 3) iconHtml = `<span class="rank-3" style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:18px;">emoji_events</span>3</span>`;
+    if (rank === 1) iconHtml = `<span class="rank-1" style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:18px;">emoji_events</span>1</span>`;
+    else if (rank === 2) iconHtml = `<span class="rank-2" style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:18px;">emoji_events</span>2</span>`;
+    else if (rank === 3) iconHtml = `<span class="rank-3" style="display:inline-flex;align-items:center;gap:4px;"><span class="material-icons" style="font-size:18px;">emoji_events</span>3</span>`;
 
     const displayName = data.displayName || data.email?.split('@')[0] || 'User';
 
     const li = document.createElement('li');
     li.className = `list-group-item d-flex justify-content-between align-items-center px-0 ${isMe ? 'bg-light rounded mt-2 p-2 border' : ''}`;
     li.innerHTML = `
-  <span style="display:inline-flex;align-items:center;center;gap:20px;">${iconHtml} ${isMe ? `<strong>${displayName} (You)</strong>` : displayName}</span>
-  
+      <span style="display:inline-flex;align-items:center;center;gap:20px;">${iconHtml} ${isMe ? `<strong>${displayName} (You)</strong>` : displayName}</span>
       <span class="badge rounded-pill" style="background-color:${isMe ? '#648FFF' : '#1e293b'};">
         ${data.total_xp || 0} XP
       </span>
