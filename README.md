@@ -67,15 +67,7 @@ Sign Sprites makes learning fun through interactive mini-games.
 - Reinforce memory with play-based learning
 - Improve speed and accuracy in recognition
 - Suitable for both beginners and advanced learners
-  
-### 🧩 Mini Learning Game
 
-A camera-based interactive game to practice ASL.
-
-- Tests your signs in real-time
-- Improves speed and accuracy
-- Keeps learning fun and engaging
-  
 ### 🧾 ASL Box
 
 A dedicated ASL Box for structured learning and quick reference.
