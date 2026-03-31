@@ -916,7 +916,7 @@
       let confettiShown = localStorage.getItem("asl-confetti");
 
       if (!saved || JSON.parse(saved).date !== today) {
-        const res = await fetch("http://localhost:3000/api/asl-tip");
+        const res = await fetch("https://asl-backend-u3tt.onrender.com/api/asl-tip");
         const data = await res.json();
         const type = Math.random() > 0.5 ? "tip" : "sign";
         const content = {
