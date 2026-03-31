@@ -72,11 +72,11 @@ Ideal for beginners and advanced learners alike
 
 ### 🧩 Mini Learning Game
 
-A lightweight, interactive game designed to:
+A camera-based interactive game to practice ASL:
 
-Test your ASL knowledge
-Improve recall speed
-Keep learning engaging and non-repetitive
+Tests your signs in real-time
+Improves speed and accuracy
+Keeps learning fun and engaging
 
 ### 🧾 ASL Box
 
